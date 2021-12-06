@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "LLPOLY1.C": "cpp",
+    "sstream": "c",
+    "array": "c",
+    "string": "c",
+    "random": "c"
+  },
+  "cmake.configureOnOpen": false
+}
