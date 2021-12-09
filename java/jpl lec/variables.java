@@ -1,11 +1,13 @@
 import java.util.*;
 
-class instanceV {
-    float r,a;
+class variables {
+    float r,a;  //instance var/object variables
+    // static float r,a;  static/class variables
     public static void main(String arg[]){
-        instanceV c = new instanceV();
+        variables c = new variables();
         c.circle();
-        instanceV c1 = new instanceV();
+
+        variables c1 = new variables();
         c1.circle();
 
         System.out.println(c.r);

@@ -1,10 +1,9 @@
-package os;
 import java.util.*;
 
-public class one {
+class fcfs {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int sumWt = 0,sumBt = 0, i, j, temp;
+        int sumWt = 0, sumBt = 0, i, j, temp;
         System.out.print("Enter the no. of process:");
         int n = sc.nextInt();
         int at[] = new int[n];
@@ -38,7 +37,7 @@ public class one {
                 }
             }
         }
-        wt[0] = 0; //for fcfs
+        wt[0] = 0; // for fcfs
         count = at[0];
         System.out.println("The Waiting time for each process is :");
         for (i = 0; i < n; i++) {
@@ -51,12 +50,12 @@ public class one {
             sumWt += wt[i];
             System.out.print(wt[i] + " ");
         }
-        System.out.println("\nThe average waiting time is :"+(sumWt/n));
+        System.out.println("\nThe average waiting time is :" + (sumWt / n));
         System.out.println("The Turnaround time for each process is :");
-        for(i = 0;i<n;i++){
-            System.out.print(bt[i]+" ");
+        for (i = 0; i < n; i++) {
+            System.out.print(bt[i] + " ");
         }
-        System.out.println("\nThe average turnaround time is :"+(sumBt/n));
+        System.out.println("\nThe average turnaround time is :" + (sumBt / n));
 
     }
 }
