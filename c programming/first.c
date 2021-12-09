@@ -1,176 +1,125 @@
-#define SIZE 50
-#include <ctype.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <ctype.h>
 
-char s[SIZE];
-int top = -1;
-
-void push(char e)
+struct node
 {
-    s[++top] = e;
-}
+    int data;
+    struct node *next;
+};
 
-char pop()
-{
-    return s[top--];
-}
-
-int pr(char e)
-{
-    switch (e)
+void display(struct node *head)
+{ // Traversal / Printing  ...
+    struct node *temp = head;
+    int count = 0;
+    while (temp != NULL)
     {
-    case '#':
-        return 0;
-    case '(':
-        return 1;
-    case '+':
-    case '-':
-        return 2;
-    case '*':
-    case '/':
-    case '%':
-        return 3;
-    case '^':
-        return 4;
-    default:
-        break;
+        printf(" %d \n ", temp->data);
+        temp = temp->next;
+        count++;
+    }
+    printf("count is : %d \n", count);
+    //return count;
+}
+
+struct node *create(int data)
+{
+    struct node *p = (struct node *)malloc(sizeof(struct node));
+    p->data = data;
+    p->next = NULL;
+    return p;
+}
+
+struct node *insert(struct node *head, int data)
+{
+    struct node *newnode = create(data);
+    struct node *temp;
+    if (head == NULL)
+    {
+        head = newnode;
+        temp = head;
+    }
+    else
+    {
+        temp->next = newnode;
+        temp = temp->next;
+    }
+    return head;
+}
+
+int count(struct Node *head)
+{
+    int c = 0;
+    while (head != NULL)
+    {
+        c++;
+        head = head->next;
+    }
+    return c;
+}
+
+void insertAtPos(struct node *head, int data, int pos)
+{
+    // if (pos == 1)
+    // {
+    //     //printf("At 1 ");
+    //     newnode->next = head;
+    //     head = newnode;
+    // }
+    // else if (pos == count)
+    // {
+    //     struct node *temp = head;
+    //     while (temp != NULL)
+    //     {
+    //         temp = temp->next;
+    //     }
+    //     temp->next = newnode;
+    // }
+    // else
+    // {
+    //     printf("\nNOt done yet \n");
+    // }
+    if (pos < 0 || pos > count(head))
+    {
+        // print out of bound
+    }
+    struct node *newnode = create(data);
+    struct node *temp;
+    if (pos == 0)
+    {
+        //logic
+    }
+    else
+    {
+        // logic
     }
 }
 
-void intoPost(char infx[50], char pofx[50])
+int main()
 {
-    char ch;
-    int i = 0, k = 0;
-    push('#');
-
-    while ((ch = infx[i++]) != '\0')
+    int n, data, choice, pos, count;
+    struct node *head = NULL;
+    printf("Creation : \n\n");
+    printf("Enter Number Of Elements : ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
     {
-        if (ch == ' ')
-        {
-            continue;
-        }
-        if (ch == '(')
-        {
-            push(ch);
-        }
-        else if (isalnum(ch))
-        {
-            pofx[k++] = ch;
-            pofx[k++] = ' ';
-        }
-        else if (ch == ')')
-        {
-            while (s[top] != '(')
-            {
-                pofx[k++] = pop();
-                pofx[k++] = ' ';
-            }
-            pop();
-        }
-        else
-        {
-            if (pr(s[top]) == 4 && pr(ch) == 4)
-            {
-                push(ch);
-            }
-            else
-            {
-                while (pr(s[top]) >= pr(ch))
-                {
-                    pofx[k++] = pop();
-                    pofx[k++] = ' ';
-                }
-                push(ch);
-            }
-        }
+        printf("Enter data : ");
+        scanf("%d", &data);
+        head = insert(head, data);
     }
-    while (s[top] != '#')
-        pofx[k++] = pop();
-    pofx[k++] = ' ';
-    pofx[k] = '\0';
-
-    printf("\n\nGiven Infix Expn: %s Postfix Expn : %s\n", infx, pofx);
-}
-
-int sint[SIZE];
-int top2 = -1;
-int flag = 0;
-int popint()
-{
-    return (sint[top2--]);
-}
-
-int pushint(int elem)
-{
-    if (flag >= 1)
+    printf("\nLinked List Before Insertion : \n");
+    display(head);
+    printf("\nDo You Wanna Insert (0,1) ? ");
+    scanf("%d", &choice);
+    while (choice)
     {
-        int num;
-        num = popint();
-        sint[++top2] = elem + 10 * flag * num;
+        printf("Enter The ELEMENT And The POSITION : ");
+        scanf("%d %d", &data, &pos);
+        insertAtPos(head, pos, data);
+        printf("\nDo You Wanna Insert More (0,1) ? ");
+        scanf("%d", &choice);
     }
-    else if (flag == 0)
-    {
-        sint[++top2] = elem;
-        flag = 1;
-    }
-}
-
-int postEva(char postE[50])
-{
-    char ch;
-    int i = 0, op1, op2;
-
-    while ((ch = postE[i++]) != '\n')
-    {
-        if (isdigit(ch))
-            pushint(ch - '0');
-        else if (ch == ' ')
-            flag = 0;
-        else
-        {
-            flag = 0;
-            op2 = popint();
-            op1 = popint();
-            switch (ch)
-            {
-            case '+':
-                pushint(op1 + op2);
-                break;
-            case '-':
-                pushint(op1 - op2);
-                break;
-            case '*':
-                pushint(op1 * op2);
-                break;
-            case '/':
-                pushint(op1 / op2);
-                break;
-            case '^':
-                pushint(pow(op1, op2));
-                break;
-            case '%':
-                pushint(op1 % op2);
-                break;
-            default:
-                printf("Input invalid ... give proper input\n");
-                return 0;
-            }
-        }
-    }
-    printf("Result: %d\n", sint[top2]);
-}
-
-void main()
-{
-
-    char infx[50], pofx[50], postE[50];
-    printf("\n\nEnter the Infix Expression: ");
-    gets(infx);
-    intoPost(infx, pofx);
-    // printf("Enter the Postfix Expression: ");
-    // fgets(postE, 100, stdin);
-    postEva(pofx);
+    printf("Linked List After Insertion : ");
+    display(head);
+    return 0;
 }
