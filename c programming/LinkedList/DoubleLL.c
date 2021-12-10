@@ -115,6 +115,23 @@ int delete (struct Node *p, int pos)
     }
 }
 
+void Reverse(struct Node *p)
+{
+    struct Node *temp;
+
+    while (p != NULL)
+    {
+        temp = p->next;
+        p->next = p->prev;
+        p->prev = temp;
+        p = p->prev; //critical condition
+        if (p != NULL && p->next == NULL)
+        {
+            first = p;
+        }
+    }
+}
+
 int main()
 {
     int a[] = {1, 2, 3, 4, 5};
@@ -125,6 +142,8 @@ int main()
 
     delete (first, 0);
     delete (first, 4);
+
+    Reverse(first);
     display(first);
 
     return 0;

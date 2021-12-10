@@ -17,19 +17,20 @@ struct Node *create(int c, int e)
 struct Node *insert_end(struct Node *head, int c, int e)
 {
     struct Node *temp = create(c, e);
-    struct Node *last;
+    struct Node *tail;
     if (head == NULL)
     {
         head = temp;
-        last = head;
+        tail = head;
     }
     else
     {
-        last->next = temp;
-        last = last->next;
+        tail->next = temp;
+        tail = tail->next;
     }
     return head;
 }
+
 void Display(struct Node *p)
 {
     struct Node *t = p;
@@ -47,13 +48,14 @@ void Display(struct Node *p)
             }
             else
             {
-                printf("%dx^%d --> ", t->coeff, t->expo);
+                printf("%dx^%d + ", t->coeff, t->expo);
             }
             t = t->next;
         }
         printf("\n");
     }
 }
+
 void addTwo(struct Node *p1, struct Node *p2)
 {
     struct Node *head1 = p1;
@@ -93,9 +95,10 @@ void addTwo(struct Node *p1, struct Node *p2)
         head3 = insert_end(head3, head2->coeff, head2->expo);
         head2 = head2->next;
     }
-    printf("\nAfter adding two Polynomial\n Result=");
+    printf("\nAfter adding two Polynomial\n Result = ");
     Display(head3);
 }
+
 void sub(struct Node *p1, struct Node *p2)
 {
     struct Node *head3 = NULL;
@@ -135,9 +138,10 @@ void sub(struct Node *p1, struct Node *p2)
         head3 = insert_end(head3, head2->coeff, head2->expo);
         head2 = head2->next;
     }
-    printf("\nAfter sub two Polynomial\n Result=");
+    printf("\nAfter sub two Polynomial\n Result = ");
     Display(head3);
 }
+
 void mul(struct Node *p1, struct Node *p2)
 {
     struct Node *head3 = NULL;
@@ -156,7 +160,7 @@ void mul(struct Node *p1, struct Node *p2)
         head2 = p2;
         head1 = head1->next;
     }
-    printf("\nAfter multiply\n Result=");
+    printf("\nAfter multiply\n Result = ");
     Display(head3);
 }
 int main()
