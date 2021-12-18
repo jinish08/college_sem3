@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <math.h>
 
-int arr[50];
+int dq[50];
 int r = -1;
 int f = -1;
 
@@ -31,7 +31,7 @@ void enqR(int index)
         f = 0, r = 0;
     else
         r = r + 1;
-    arr[r] = index;
+    dq[r] = index;
 }
 
 int deqF()
@@ -41,10 +41,10 @@ int deqF()
     else if (f == r)
     {
         f = -1, r = -1;
-        return arr[f];
+        return dq[f];
     }
     else
-        return arr[f++];
+        return dq[f++];
 }
 
 int deqR()
@@ -54,10 +54,10 @@ int deqR()
     else if (f == r)
     {
         f = -1, r = -1;
-        return arr[r];
+        return dq[r];
     }
     else
-        return arr[r--];
+        return dq[r--];
 }
 
 int main()
@@ -68,32 +68,17 @@ int main()
     printf("Enter the elements:\n");
     int num[n];
     for (int i = 0; i < n; i++)
-    {
         scanf("%d", &num[i]);
-    }
     printf("Give the window size:\n");
     scanf("%d", &j);
-    enqR(0);
-    for (int i = 0; i < j; i++)
+    for (int i = 0; i < n; i++)
     {
-        if (num[i] >= num[i - 1])
-        {
-            deqR();
-            enqR(i);
-        }
-    }
-    printf("%d ", num[arr[0]]);
-    for (int i = j; i < n; i++)
-    {
-        while (f != -1 && arr[f] <= i - j)
-        {
+        if (!isempty() && dq[f] <= i - j)
             deqF();
-        }
-        while (r != -1 && num[i] >= num[arr[r]])
-        {
+        while (!isempty() && num[i] >= num[dq[r]])
             deqR();
-        }
         enqR(i);
-        printf("%d ", num[arr[f]]);
+        if (i >= j - 1)
+            printf("%d ", num[dq[f]]);
     }
 }
