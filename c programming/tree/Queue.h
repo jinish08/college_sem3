@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-
 struct Node
 {
     struct Node *lchild;

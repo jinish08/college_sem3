@@ -1,26 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Queue.h"
+#include "Stack.h"
 
 struct Node *root = NULL;
-
 void Treecreate()
 {
     struct Node *p, *t;
     int x;
     struct Queue q;
     create(&q, 100);
-
-    printf("Enter root value ");
+    printf("Eneter root value ");
     scanf("%d", &x);
     root = (struct Node *)malloc(sizeof(struct Node));
     root->data = x;
     root->lchild = root->rchild = NULL;
     enqueue(&q, root);
-
     while (!isEmpty(q))
     {
         p = dequeue(&q);
-        printf("Enter left child of %d ", p->data);
+        printf("eneter left child of %d ", p->data);
         scanf("%d", &x);
         if (x != -1)
         {
@@ -30,7 +29,7 @@ void Treecreate()
             p->lchild = t;
             enqueue(&q, t);
         }
-        printf("Enter right child of %d ", p->data);
+        printf("eneter right child of %d ", p->data);
         scanf("%d", &x);
         if (x != -1)
         {
@@ -42,43 +41,171 @@ void Treecreate()
         }
     }
 }
+void IInorder(struct Node *p)
+{
+    struct Stack stk;
+    createStack(&stk, 100);
+    while (p || !isEmptyStack(stk))
+    {
+        if (p)
+        {
+            push(&stk, p);
+            p = p->lchild;
+        }
+        else
+        {
+            p = pop(&stk);
+            printf("%d ", p->data);
+            p = p->rchild;
+        }
+    }
+}
 
-void preorder(struct Node *p)
+void iterativePre(struct Node *p)
 {
-    if (p)
+    struct Stack stk;
+    createStack(&stk, 100);
+    while (p || !isEmptyStack(stk))
     {
-        printf("%d", p->data);
-        preorder(p->lchild);
-        preorder(p->rchild);
+        if (p)
+        {
+            printf("%d ", p->data);
+            push(&stk, p);
+            p = p->lchild;
+        }
+        else
+        {
+            p = pop(&stk);
+            p = p->rchild;
+        }
     }
-    printf("\n");
 }
-void inorder(struct Node *p)
+
+void LevelOrder(struct Node *root)
 {
-    if (p)
+    struct Queue q;
+    create(&q, 100);
+
+    printf("%d ", root->data);
+    enqueue(&q, root);
+    while (!isEmpty(q))
     {
-        preorder(p->lchild);
-        printf("%d", p->data);
-        preorder(p->rchild);
+        root = dequeue(&q);
+        if (root->lchild)
+        {
+            printf("%d ", root->lchild->data);
+            enqueue(&q, root->lchild);
+        }
+        if (root->rchild)
+        {
+            printf("%d ", root->rchild->data);
+            enqueue(&q, root->rchild);
+        }
     }
-    printf("\n");
 }
-void postorder(struct Node *p)
+
+int count(struct Node *p)
 {
-    if (p)
+    int x, y;
+    if (p != NULL)
     {
-        preorder(p->lchild);
-        preorder(p->rchild);
-        printf("%d", p->data);
+        x = count(p->lchild);
+        y = count(p->rchild);
+        return x + y + 1;
     }
-    printf("\n");
+    return 0;
+}
+
+int height(struct Node *p)
+{
+    int x, y;
+    if (p != NULL)
+    {
+        x = height(p->lchild);
+        y = height(p->rchild);
+        if (x > y)
+            return x + 1;
+        else
+            return y + 1;
+    }
+    return 0;
+}
+
+int countLeaf(struct Node *p)
+{
+    int x, y;
+    if (p !NULL)
+    {
+        x = countLeaf(p->lchild);
+        y = countLeaf(p->rchild);
+        if (!p->lchild && !p->rchild)
+        {
+            return x + y + 1;
+        }
+        else
+            return x + y;
+    }
+    return 0;
+}
+int countInternal(struct Node *p)
+{
+    int x, y;
+    if (p !NULL)
+    {
+        x = countInternal(p->lchild);
+        y = countInternal(p->rchild);
+        if (p->lchild || p->rchild)
+        {
+            return x + y + 1;
+        }
+        else
+            return x + y;
+    }
+    return 0;
+}
+int countDeg2(struct Node *p)
+{
+    int x, y;
+    if (p !NULL)
+    {
+        x = countDeg2(p->lchild);
+        y = countDeg2(p->rchild);
+        if (p->lchild && p->rchild)
+        {
+            return x + y + 1;
+        }
+        else
+            return x + y;
+    }
+    return 0;
+}
+int countDeg1(struct Node *p)
+{
+    int x, y;
+    if (p !NULL)
+    {
+        x = countDeg1(p->lchild);
+        y = countDeg1(p->rchild);
+        if (p->lchild || p->rchild)
+        {
+            return x + y + 1;
+        }
+        else
+            return x + y;
+    }
+    return 0;
 }
 
 int main()
+
 {
     Treecreate();
-    preorder(root);
-    inorder(root);
-    postorder(root);
+    // iterativePre(root);
+    // IInorder(root);
+    // LevelOrder(root);
+    int c = count(root);
+    printf("The total number of nodes in this tree is %d", c);
+    int h = height(root);
+    printf("The height of this tree is %d", h);
     return 0;
 }
