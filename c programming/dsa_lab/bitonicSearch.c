@@ -62,10 +62,15 @@ int searchBitonic(int arr[], int n, int key, int index)
 
 void main()
 {
-    int arr[] = {-8, 1, 2, 3, 4, 5, -2, -3};
-    int key = -2;
-    int n, l, r;
-    n = 8;
+    int n, l, r, key;
+    printf("Enter the value of n : ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter  the  elements  of  the  bitonic  array : ");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+    printf("Enter the value of key : ");
+    scanf("%d", &key);
     l = 0;
     r = n - 1;
     int index;

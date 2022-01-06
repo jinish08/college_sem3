@@ -1,16 +1,26 @@
-import java.util.*;
+import java.io.*;
 
-class Main {
-    public static void Main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int count = 0, n, rem;
-        System.out.println("Please enter a no: ");
-        n = sc.nextInt();
-        while (n != 0) {
-            rem = n % 10;
-            count++;
-            n = n / 10;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        int marks;
+        DataInputStream d = new DataInputStream(System.in);
+        System.out.println("Enter the marks:");
+        marks = Integer.parseInt(d.readLine());
+
+        try {
+            if (marks < 0 || marks > 100) {
+                throw new MarksOutOfBoundsException();
+            }
+        } catch (Exception e) {
+            marks = 0;
+            System.out.println(e);
+        } finally {
+            System.out.println("****************");
         }
-        System.out.println("The no of digits are: " + count);
+        System.out.println("Marks = " + marks);
     }
+}
+
+class MarksOutOfBoundsException extends Exception {
+
 }

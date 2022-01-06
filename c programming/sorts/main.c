@@ -26,11 +26,49 @@ void Bubble(int A[], int n)
     }
 }
 
+void Insertion(int A[], int n)
+{
+    int i, j, x;
+
+    for (int i = 1; i < n; i++)
+    {
+        j = i - 1;
+        x = A[i];
+        while (j > -1 && A[j] > x)
+        {
+            A[j + 1] = A[j];
+            j--;
+        }
+        A[j + 1] = x;
+    }
+}
+
+void Selection(int A[], int n)
+{
+    int i, j, k;
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = k = i; j < n; j++)
+        {
+            if (A[j] < A[k])
+            {
+                k = j;
+            }
+        }
+        swap(&A[i], &A[k]);
+    }
+}
+
 int main()
 {
     int A[] = {3, 7, 9, 10, 6, 5, 12, 4, 11, 2}, n = 10;
 
-    Bubble(A, n);
+    // Bubble(A, n);
+
+    // Insertion(A, n);
+
+    Selection(A, n);
 
     for (int i = 0; i < n; i++)
     {
