@@ -1,26 +1,65 @@
-import java.io.*;
+import java.lang.*;
+import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        int marks;
-        DataInputStream d = new DataInputStream(System.in);
-        System.out.println("Enter the marks:");
-        marks = Integer.parseInt(d.readLine());
+class Prime implements Runnable {
+    long j, c;
 
-        try {
-            if (marks < 0 || marks > 100) {
-                throw new MarksOutOfBoundsException();
+    Prime() {
+        c = 0;
+    }
+
+    public void run() {
+        System.out.println("Thread Prime started.");
+        long startTime = System.currentTimeMillis();
+        int i = 0;
+        while (c < 20) {
+            i++;
+            for (j = 2; j <= i; j++) {
+                if (i % j == 0)
+                    break;
             }
-        } catch (Exception e) {
-            marks = 0;
-            System.out.println(e);
-        } finally {
-            System.out.println("****************");
+            if (j == i) {
+                c++;
+                System.out.println(c + "th" + " Prime no: = " + i);
+            }
         }
-        System.out.println("Marks = " + marks);
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        System.out.println("Prime No. Tread too " + elapsedTime + " milliseconds");
     }
 }
 
-class MarksOutOfBoundsException extends Exception {
+class Fib implements Runnable {
+    long a, b, c, n;
 
+    Fib() {
+        a = c = n = 0;
+        b = 1;
+    }
+
+    public void run() {
+        System.out.println("Thread Fib started.");
+        long startTime = System.currentTimeMillis();
+        while (n++ < 15) {
+            System.out.println(n + "th" + " Fib no: = " + a);
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        System.out.println("Fibonacci Thread took " + elapsedTime + " milliseconds");
+    }
+}
+
+class Main {
+
+    public static void main(String[] args) {
+        Prime p = new Prime();
+        Fib f = new Fib();
+        Thread fib = new Thread(f, "fibonacci");
+        Thread prime = new Thread(p, "prime");
+        fib.start();
+        prime.start();
+    }
 }
